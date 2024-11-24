@@ -1,10 +1,10 @@
 {
-  "name": "bc2024-5",
+  "name": "bc2024-6",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon --inspect=0.0.0.0:9229 -L index.js"
   },
   "keywords": [],
   "author": "",

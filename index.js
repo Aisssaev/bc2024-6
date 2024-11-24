@@ -10,9 +10,9 @@ app.use(express.json());
 app.use(express.text());
 
 program
-    .option('-h, --host <host>', 'address of the server', 'localhost')
+    .option('-h, --host <host>', 'address of the server', '0.0.0.0')
     .option('-p, --port <port>', 'port of the server', 3000)
-    .option('-c, --cache <path>', 'path to cache directory')
+    .option('-c, --cache <path>', 'path to cache directory', 'cache')
 
 program.parse(process.argv);
 const options = program.opts();
@@ -33,7 +33,7 @@ app.get('/UploadForm.html', (req, res) => {
 app.get('/notes/:noteName', (req, res) => {
     const notePath = path.join(cacheDir, req.params.noteName);
     if (!existsSync(notePath)) {
-        return res.status(404).send('Not Found');
+        return res.status(404).send('Not Found gfdgd');
     }
 
     const noteContent = readFileSync(notePath, 'utf-8');
