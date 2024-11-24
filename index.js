@@ -1,9 +1,12 @@
 const express = require('express');
 const { Command } = require('commander');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 const {readFileSync, readdirSync, writeFileSync, existsSync, unlinkSync, mkdirSync} = require("fs");
 const app = express();
 const program = new Command();
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,6 +24,26 @@ const cacheDir = options.cache;
 if (!existsSync(cacheDir)) {
     mkdirSync(cacheDir, { recursive: true });
 }
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API Documentation',
+            version: '1.0.0',
+            description: 'Документація вашого API',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+            },
+        ],
+    },
+    apis: ['./index.js'], // Шлях до ваших файлів з API
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/UploadForm.html', (req, res) => {
     const formPath = path.join(__dirname, 'UploadForm.html');
